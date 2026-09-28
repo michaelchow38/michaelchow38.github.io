@@ -1,37 +1,43 @@
-# My portfolio
+# Michael Chow — Portfolio
 
-A simple portfolio site hosted free on GitHub Pages. All the content — bio, CV, and projects — lives in **`content.js`**, so you rarely need to touch any other file.
+Live at **https://michaelchow38.github.io**
 
-## One-time setup (about 10 minutes)
+All the text on the site (bio, contact info, resume, projects) lives in **`content.js`**. You rarely need to touch any other file.
 
-1. Sign in at github.com (or create an account). Note your username.
-2. Click **+** (top right) → **New repository**.
-3. Name it exactly **`your-username.github.io`** (with your real username). Set it to **Public**, then click **Create repository**.
-4. On the new repo page, click **uploading an existing file**. Drag in everything from this folder — `index.html`, `styles.css`, `app.js`, `content.js`, `README.md`, and the `assets` folder. Click **Commit changes**.
-5. Go to **Settings → Pages**. Under "Build and deployment", set Source to **Deploy from a branch**, branch **main**, folder **/ (root)**, then **Save**.
-6. Wait a minute or two. Your site is live at **https://your-username.github.io**.
+## How to edit something
 
-## Updating your CV
+1. Open `content.js` in this repository and click the pencil icon (Edit).
+2. Change the text between the quotes.
+3. Click **Commit changes**. The site updates in about a minute. Press Ctrl+Shift+R (Cmd+Shift+R on Mac) if you still see the old version.
 
-1. Export your CV as a PDF named **`Michael-Chow-CV.pdf`**.
-2. In your repo, open the `assets` folder → **Add file → Upload files** → drop in the PDF → **Commit changes**. Same name = old one gets replaced.
-3. Optional: edit `cvUpdated` and the experience/education lists in `content.js` so the on-page summary matches.
+A blank page after an edit usually means a missing comma or quote. Every `{ ... }` block in a list needs a comma after it. You can restore the last working version from the file's History.
 
-## Adding or updating a project
+## Uploading files
 
-1. In your repo, click `content.js` → the pencil icon (Edit).
-2. Find `projects: [` and copy one whole `{ ... },` block. Paste it at the top of the list and change the text.
-   - `status`: `"completed"` or `"in-progress"`
-   - `labels`: any tags, e.g. `["Design", "Research"]` — filter buttons appear automatically
-   - `image`: upload a picture to `assets/images`, then write `"assets/images/filename.jpg"` (or leave `""`)
-3. Click **Commit changes**. The site updates in about a minute.
+- **Photo:** upload a square image named `avatar.png` into `assets/images`.
+- **CV:** upload your PDF named `Michael-Chow-CV.pdf` into `assets`. Uploading a new one with the same name replaces the old one. Update `cvUpdated` in `content.js`.
+- **Project images:** upload to `assets/images`, then reference them as `"assets/images/file-name.png"`.
 
-To mark a project finished, just change its `status` from `"in-progress"` to `"completed"`.
+To upload: open the folder in GitHub → **Add file → Upload files** → drag files in → **Commit changes**.
 
-## If something breaks
+## Adding a project
 
-A blank page after an edit usually means a missing comma or quote in `content.js`. Every `{ ... }` block in a list needs a comma after it, and all text needs matching `"quotes"`. You can view the file's history in GitHub and restore the last working version.
+In `content.js`, find `projects: [` and copy a whole `{ ... },` block. Each project gets its own page at `#project/<id>`.
 
-## Optional: use your own domain
+| Field | What it does |
+|---|---|
+| `id` | Short name used in the page link, e.g. `"man-city-2020-21"` (optional) |
+| `title`, `year`, `summary` | Shown on the card and at the top of the page |
+| `status` | `"completed"` or `"in-progress"` |
+| `labels` | Tags used by the filter buttons |
+| `image` | Cover image |
+| `facts` | Short details, e.g. `{ label: "Tools", value: "Python, SQL" }` |
+| `sections` | The write-up: `{ heading, text }` and/or `{ heading, points: [ ... ] }` |
+| `gallery` | Extra images: `{ src, caption }` |
+| `links` | Buttons: `{ label, url }` |
 
-Settings → Pages → Custom domain. Your domain registrar's help pages will show the DNS records to add.
+## Resume sections
+
+`experience` is split into groups (for example Research, Esports & Youth Sports). Each group has a `heading`, an `icon`, and a list of `items`. Copy a group to add a new section.
+
+Icons: design, code, mobile, camera, data, research, pen, chart, briefcase, team.

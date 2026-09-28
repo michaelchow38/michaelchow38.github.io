@@ -24,6 +24,8 @@
     chart: '<path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-6"/>',
     book: '<path d="M4 4h6a3 3 0 0 1 3 3v13a2 2 0 0 0-2-2H4z"/><path d="M20 4h-6a3 3 0 0 0-3 3v13a2 2 0 0 1 2-2h7z"/>',
     briefcase: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M3 13h18"/>',
+    team: '<circle cx="9" cy="8" r="3"/><path d="M3 20a6 6 0 0 1 12 0"/><circle cx="17" cy="9" r="2.5"/><path d="M15.5 14.5A5 5 0 0 1 21 19"/>',
+    external: '<path d="M7 17 17 7"/><path d="M9 7h8v8"/>',
     eye: '<path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'
   };
   const icon = (name) => {
@@ -44,7 +46,8 @@
   } else { $("avatar").textContent = initials; }
 
   const contacts = [
-    { ic: "mail", label: "Email", value: S.email, href: "mailto:" + S.email },
+    { ic: "mail", label: S.schoolEmail ? "Personal email" : "Email", value: S.email, href: "mailto:" + S.email },
+    S.schoolEmail && { ic: "mail", label: "School email", value: S.schoolEmail, href: "mailto:" + S.schoolEmail },
     S.phone && { ic: "phone", label: "Phone", value: S.phone, href: "tel:" + S.phone.replace(/[^\d+]/g, "") },
     S.location && { ic: "pin", label: "Location", value: S.location }
   ].filter(Boolean);
@@ -59,7 +62,9 @@
     li.append(box, txt); $("contact-list").appendChild(li);
   });
   const socials = (target) => S.links.forEach((l) => {
-    const a = el("a", null, l.label); a.href = l.url; a.target = "_blank"; a.rel = "noopener";
+    const a = el("a", "social-btn", l.label); a.href = l.url; a.target = "_blank"; a.rel = "noopener";
+    a.setAttribute("aria-label", l.label + " (opens in a new tab)");
+    a.appendChild(icon("external"));
     const li = el("li"); li.appendChild(a); target.appendChild(li);
   });
   socials($("social")); socials($("social-big"));
@@ -70,18 +75,31 @@
     $("more").textContent = open ? "Hide contacts" : "Show contacts";
   });
 
-  /* ---------- Tabs ---------- */
+  /* ---------- Tabs & routing ----------
+     #about, #resume, #portfolio, #contact show a tab.
+     #project/<id> shows one project's page. */
   const tabs = document.querySelectorAll(".tabs button");
-  function show(name, push) {
-    if (!$("tab-" + name)) name = "about";
+  function showTab(name, highlight) {
     document.querySelectorAll(".tab").forEach((t) => (t.hidden = t.id !== "tab-" + name));
-    tabs.forEach((b) => b.setAttribute("aria-current", b.dataset.tab === name ? "page" : "false"));
-    if (push) history.replaceState(null, "", "#" + name);
+    tabs.forEach((b) => b.setAttribute("aria-current", b.dataset.tab === highlight ? "page" : "false"));
     window.scrollTo(0, 0);
   }
-  tabs.forEach((b) => b.addEventListener("click", () => show(b.dataset.tab, true)));
-  show(location.hash.slice(1) || "about", false);
-  window.addEventListener("hashchange", () => show(location.hash.slice(1), false));
+  function route() {
+    const hash = decodeURIComponent(location.hash.slice(1));
+    if (hash.startsWith("project/")) {
+      renderProject(hash.slice(8));
+      showTab("project", "portfolio");
+      return;
+    }
+    const name = $("tab-" + hash) && hash !== "project" ? hash : "about";
+    document.title = S.name + " — Portfolio";
+    showTab(name, name);
+  }
+  tabs.forEach((b) => b.addEventListener("click", () => {
+    if (location.hash === "#" + b.dataset.tab) route();
+    else location.hash = b.dataset.tab;
+  }));
+  window.addEventListener("hashchange", route);
 
   /* ---------- About ---------- */
   S.about.forEach((p) => $("about-text").appendChild(el("p", null, p)));
@@ -105,14 +123,33 @@
     target.appendChild(li);
   });
   timeline(S.education, $("education"));
-  timeline(S.experience, $("experience"));
+  // Experience can be one list, or split into groups with their own headings
+  const groups = S.experience.length && S.experience[0].items
+    ? S.experience
+    : [{ heading: "Experience", icon: "briefcase", items: S.experience }];
+  groups.forEach((g) => {
+    const block = el("div", "timeline-block");
+    const h = el("h3", "subheading with-icon");
+    const box = el("span", "icon-box"); box.appendChild(icon(g.icon || "briefcase"));
+    h.append(box, document.createTextNode(g.heading));
+    const ol = el("ol", "timeline");
+    timeline(g.items, ol);
+    block.append(h, ol); $("experience-groups").appendChild(block);
+  });
   S.skills.forEach((s) => $("skills").appendChild(el("li", null, s)));
 
   /* ---------- Contact ---------- */
-  $("big-email").textContent = S.email; $("big-email").href = "mailto:" + S.email;
+  [[S.schoolEmail ? "Personal" : "Email", S.email], ["School", S.schoolEmail]].forEach(([label, addr]) => {
+    if (!addr) return;
+    const li = el("li");
+    li.appendChild(el("span", "c-label", label));
+    const link = el("a", "big-email", addr); link.href = "mailto:" + addr;
+    li.appendChild(link); $("email-list").appendChild(li);
+  });
 
   /* ---------- Portfolio ---------- */
   const STATUS = { "completed": "Completed", "in-progress": "In progress" };
+  const slug = (p) => p.id || p.title.toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
   const state = { status: "all", label: "all" };
   const labels = [...new Set(S.projects.flatMap((p) => p.labels))].sort();
   const done = S.projects.filter((p) => p.status === "completed").length;
@@ -136,22 +173,27 @@
     return s;
   };
   const imageOrTile = (p) => {
-    if (p.image) { const i = el("img"); i.src = p.image; i.alt = ""; i.loading = "lazy"; return i; }
-    return el("span", "tile", p.title.split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase());
+    const tile = () => el("span", "tile", p.title.split(/\s+/).slice(0, 2).map((w) => w[0]).join("").toUpperCase());
+    if (p.image) {
+      const i = el("img"); i.src = p.image; i.alt = ""; i.loading = "lazy";
+      i.onerror = () => i.replaceWith(tile()); // image not uploaded yet: show initials instead
+      return i;
+    }
+    return tile();
   };
+  const meta = (p) => p.labels.join(", ") + (p.year ? " · " + p.year : "");
 
   function card(p) {
     const li = el("li");
-    const b = el("button", "project"); b.type = "button";
+    const a = el("a", "project"); a.href = "#project/" + slug(p);
     const fig = el("span", "thumb");
     fig.appendChild(imageOrTile(p));
     const eye = el("span", "view"); eye.appendChild(icon("eye")); fig.appendChild(eye);
     fig.appendChild(statusTag(p));
-    b.appendChild(fig);
-    b.appendChild(el("span", "p-title", p.title));
-    b.appendChild(el("span", "p-cat", p.labels.join(", ") + (p.year ? " · " + p.year : "")));
-    b.addEventListener("click", () => openModal(p));
-    li.appendChild(b); return li;
+    a.appendChild(fig);
+    a.appendChild(el("span", "p-title", p.title));
+    a.appendChild(el("span", "p-cat", meta(p)));
+    li.appendChild(a); return li;
   }
 
   function render() {
@@ -166,19 +208,98 @@
   $("reset").addEventListener("click", () => { state.status = "all"; state.label = "all"; render(); });
   render();
 
-  /* ---------- Project modal ---------- */
-  const modal = $("modal");
-  function openModal(p) {
-    $("m-image").replaceChildren(p.image ? imageOrTile(p) : el("span"));
-    $("m-meta").replaceChildren(statusTag(p), document.createTextNode(p.labels.join(", ") + (p.year ? " · " + p.year : "")));
-    $("m-title").textContent = p.title;
-    $("m-details").textContent = p.details || p.summary;
-    $("m-links").replaceChildren(...(p.links || []).map((l) => {
-      const a = el("a", "btn", l.label); a.href = l.url; a.target = "_blank"; a.rel = "noopener";
-      const li = el("li"); li.appendChild(a); return li;
-    }));
-    modal.showModal();
+  /* ---------- Project page ---------- */
+  function renderProject(id) {
+    const view = $("project-view");
+    const i = S.projects.findIndex((p) => slug(p) === id);
+    const back = el("a", "back", "Back to portfolio"); back.href = "#portfolio";
+
+    if (i < 0) {
+      document.title = "Project not found — " + S.name;
+      const h = el("h2", "heading", "Project not found");
+      const p = el("p", "about-text", "This project may have been renamed or removed. Browse all projects instead.");
+      view.replaceChildren(back, h, p);
+      return;
+    }
+    const p = S.projects[i];
+    document.title = p.title + " — " + S.name;
+
+    const head = el("header", "pj-head");
+    head.appendChild(el("h2", "heading", p.title));
+    const m = el("p", "pj-meta"); m.append(statusTag(p), document.createTextNode(meta(p)));
+    head.appendChild(m);
+    if (p.summary) head.appendChild(el("p", "pj-lead", p.summary));
+
+    const parts = [back, head];
+
+    if (p.image) {
+      const f = el("figure", "pj-hero"); const img = el("img"); img.src = p.image; img.alt = p.imageAlt || p.title;
+      img.onerror = () => f.remove();
+      f.appendChild(img); parts.push(f);
+    }
+
+    if (p.facts && p.facts.length) {
+      const dl = el("dl", "facts");
+      p.facts.forEach((f) => {
+        const d = el("div"); d.append(el("dt", null, f.label), el("dd", null, f.value)); dl.appendChild(d);
+      });
+      parts.push(dl);
+    }
+
+    const sections = p.sections && p.sections.length
+      ? p.sections
+      : (p.details ? [{ heading: "Overview", text: p.details }] : []);
+    sections.forEach((s) => {
+      const sec = el("section", "pj-section");
+      sec.appendChild(el("h3", "subheading", s.heading));
+      [].concat(s.text || []).forEach((t) => sec.appendChild(el("p", null, t)));
+      if (s.points && s.points.length) {
+        const ul = el("ul", "pj-points");
+        s.points.forEach((pt) => ul.appendChild(el("li", null, pt)));
+        sec.appendChild(ul);
+      }
+      parts.push(sec);
+    });
+
+    if (p.gallery && p.gallery.length) {
+      const sec = el("section", "pj-section");
+      sec.appendChild(el("h3", "subheading", "Gallery"));
+      const g = el("div", "gallery");
+      p.gallery.forEach((gi) => {
+        const f = el("figure"); const img = el("img"); img.src = gi.src; img.alt = gi.caption || ""; img.loading = "lazy";
+        img.onerror = () => f.remove();
+        const link = el("a"); link.href = gi.src; link.target = "_blank"; link.rel = "noopener";
+        link.setAttribute("aria-label", "Open full size: " + (gi.caption || "image"));
+        link.appendChild(img); f.appendChild(link);
+        if (gi.caption) f.appendChild(el("figcaption", null, gi.caption));
+        g.appendChild(f);
+      });
+      sec.appendChild(g); parts.push(sec);
+    }
+
+    if (p.links && p.links.length) {
+      const ul = el("ul", "pj-links");
+      p.links.forEach((l) => {
+        const a = el("a", "btn", l.label); a.href = l.url; a.target = "_blank"; a.rel = "noopener";
+        const li = el("li"); li.appendChild(a); ul.appendChild(li);
+      });
+      parts.push(ul);
+    }
+
+    if (S.projects.length > 1) {
+      const nav = el("nav", "pj-nav"); nav.setAttribute("aria-label", "More projects");
+      const prev = S.projects[(i - 1 + S.projects.length) % S.projects.length];
+      const next = S.projects[(i + 1) % S.projects.length];
+      [["Previous project", prev, "prev"], ["Next project", next, "next"]].forEach(([label, q, cls]) => {
+        const a = el("a", "pj-step " + cls); a.href = "#project/" + slug(q);
+        a.append(el("span", "pj-step-label", label), el("span", "pj-step-title", q.title));
+        nav.appendChild(a);
+      });
+      parts.push(nav);
+    }
+
+    view.replaceChildren(...parts);
   }
-  $("m-close").addEventListener("click", () => modal.close());
-  modal.addEventListener("click", (e) => { if (e.target === modal) modal.close(); });
+
+  route();
 })();

@@ -55,10 +55,7 @@
           <h3 class="subheading with-icon"><span class="icon-box" data-icon="book"></span>Education</h3>
           <ol class="timeline" id="education"></ol>
         </div>
-        <div class="timeline-block">
-          <h3 class="subheading with-icon"><span class="icon-box" data-icon="briefcase"></span>Experience</h3>
-          <ol class="timeline" id="experience"></ol>
-        </div>
+        <div id="experience-groups"></div>
         <h3 class="subheading">Skills</h3>
         <ul class="skills" id="skills"></ul>
       </section>
@@ -73,23 +70,19 @@
         <p class="empty" id="empty" hidden>No projects match these filters. <button type="button" id="reset">Show all projects</button></p>
       </section>
 
+      <section class="tab" id="tab-project" hidden>
+        <div id="project-view"></div>
+      </section>
+
       <section class="tab" id="tab-contact" hidden>
         <h2 class="heading">Contact</h2>
         <p class="about-text">The best way to reach me is by email.</p>
-        <a class="big-email" id="big-email"></a>
+        <ul class="email-list" id="email-list"></ul>
         <ul class="social big" id="social-big"></ul>
       </section>
     </main>
   </div>
 
-  <dialog class="modal" id="modal" aria-labelledby="m-title">
-    <button class="close" type="button" id="m-close" aria-label="Close">&times;</button>
-    <div id="m-image"></div>
-    <p class="m-meta" id="m-meta"></p>
-    <h3 id="m-title"></h3>
-    <p id="m-details"></p>
-    <ul class="m-links" id="m-links"></ul>
-  </dialog>
 
   <script src="content.js"></script>
   <script src="app.js"></script>
