@@ -7,65 +7,89 @@
   <meta name="description" content="Portfolio and CV">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip" href="#work">Skip to projects</a>
+  <div class="page">
 
-  <header class="top">
-    <nav class="nav" aria-label="Main">
-      <a href="#work">Work</a>
-      <a href="#cv">CV</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <h1 id="name" class="name"></h1>
-    <p id="role" class="role"></p>
-    <p id="intro" class="intro"></p>
-  </header>
-
-  <main>
-    <section id="work" class="work" aria-labelledby="work-h">
-      <div class="work-head">
-        <h2 id="work-h">Projects</h2>
-        <p id="count" class="count" aria-live="polite"></p>
-      </div>
-
-      <div class="filters">
-        <div class="filter-group" role="group" aria-label="Filter by status" id="status-filters"></div>
-        <div class="filter-group" role="group" aria-label="Filter by label" id="label-filters"></div>
-      </div>
-
-      <ol id="projects" class="projects"></ol>
-      <p id="empty" class="empty" hidden>No projects match these filters. <button type="button" id="reset">Show all projects</button></p>
-    </section>
-
-    <section id="cv" class="cv" aria-labelledby="cv-h">
-      <div class="cv-head">
-        <h2 id="cv-h">CV</h2>
-        <a id="cv-download" class="button" download>Download CV (PDF)</a>
-        <p id="cv-updated" class="muted"></p>
-      </div>
-      <div class="cv-body">
-        <div>
-          <h3>Experience</h3>
-          <ul id="experience" class="timeline"></ul>
+    <aside class="sidebar" id="sidebar">
+      <div class="profile">
+        <div class="avatar" id="avatar"></div>
+        <div class="profile-text">
+          <h1 id="name"></h1>
+          <p class="badge" id="title"></p>
         </div>
-        <div>
-          <h3>Education</h3>
-          <ul id="education" class="timeline"></ul>
-          <h3>Skills</h3>
-          <ul id="skills" class="skills"></ul>
-        </div>
+        <button class="more" id="more" type="button" aria-expanded="false" aria-controls="contacts">Show contacts</button>
       </div>
-    </section>
-  </main>
+      <div class="contacts" id="contacts">
+        <hr>
+        <ul class="contact-list" id="contact-list"></ul>
+        <hr>
+        <ul class="social" id="social"></ul>
+      </div>
+    </aside>
 
-  <footer id="contact" class="foot">
-    <h2>Get in touch</h2>
-    <a id="email" class="email"></a>
-    <ul id="links" class="links"></ul>
-  </footer>
+    <main class="panel">
+      <nav class="tabs" aria-label="Sections">
+        <button type="button" data-tab="about">About</button>
+        <button type="button" data-tab="resume">Resume</button>
+        <button type="button" data-tab="portfolio">Portfolio</button>
+        <button type="button" data-tab="contact">Contact</button>
+      </nav>
+
+      <section class="tab" id="tab-about">
+        <h2 class="heading">About Me</h2>
+        <div id="about-text" class="about-text"></div>
+        <h3 class="subheading">What I'm Doing</h3>
+        <ul class="services" id="services"></ul>
+      </section>
+
+      <section class="tab" id="tab-resume" hidden>
+        <h2 class="heading">Resume</h2>
+        <div class="cv-bar">
+          <a class="btn" id="cv-download" download>Download CV (PDF)</a>
+          <span class="muted" id="cv-updated"></span>
+        </div>
+        <div class="timeline-block">
+          <h3 class="subheading with-icon"><span class="icon-box" data-icon="book"></span>Education</h3>
+          <ol class="timeline" id="education"></ol>
+        </div>
+        <div class="timeline-block">
+          <h3 class="subheading with-icon"><span class="icon-box" data-icon="briefcase"></span>Experience</h3>
+          <ol class="timeline" id="experience"></ol>
+        </div>
+        <h3 class="subheading">Skills</h3>
+        <ul class="skills" id="skills"></ul>
+      </section>
+
+      <section class="tab" id="tab-portfolio" hidden>
+        <h2 class="heading">Portfolio</h2>
+        <div class="filters">
+          <div class="filter-row" role="group" aria-label="Filter by status" id="status-filters"></div>
+          <div class="filter-row" role="group" aria-label="Filter by label" id="label-filters"></div>
+        </div>
+        <ul class="grid" id="projects"></ul>
+        <p class="empty" id="empty" hidden>No projects match these filters. <button type="button" id="reset">Show all projects</button></p>
+      </section>
+
+      <section class="tab" id="tab-contact" hidden>
+        <h2 class="heading">Contact</h2>
+        <p class="about-text">The best way to reach me is by email.</p>
+        <a class="big-email" id="big-email"></a>
+        <ul class="social big" id="social-big"></ul>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="modal" id="modal" aria-labelledby="m-title">
+    <button class="close" type="button" id="m-close" aria-label="Close">&times;</button>
+    <div id="m-image"></div>
+    <p class="m-meta" id="m-meta"></p>
+    <h3 id="m-title"></h3>
+    <p id="m-details"></p>
+    <ul class="m-links" id="m-links"></ul>
+  </dialog>
 
   <script src="content.js"></script>
   <script src="app.js"></script>
