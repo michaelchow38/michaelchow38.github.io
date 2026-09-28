@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio</title>
+  <meta name="description" content="Portfolio and CV">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#work">Skip to projects</a>
+
+  <header class="top">
+    <nav class="nav" aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#cv">CV</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <h1 id="name" class="name"></h1>
+    <p id="role" class="role"></p>
+    <p id="intro" class="intro"></p>
+  </header>
+
+  <main>
+    <section id="work" class="work" aria-labelledby="work-h">
+      <div class="work-head">
+        <h2 id="work-h">Projects</h2>
+        <p id="count" class="count" aria-live="polite"></p>
+      </div>
+
+      <div class="filters">
+        <div class="filter-group" role="group" aria-label="Filter by status" id="status-filters"></div>
+        <div class="filter-group" role="group" aria-label="Filter by label" id="label-filters"></div>
+      </div>
+
+      <ol id="projects" class="projects"></ol>
+      <p id="empty" class="empty" hidden>No projects match these filters. <button type="button" id="reset">Show all projects</button></p>
+    </section>
+
+    <section id="cv" class="cv" aria-labelledby="cv-h">
+      <div class="cv-head">
+        <h2 id="cv-h">CV</h2>
+        <a id="cv-download" class="button" download>Download CV (PDF)</a>
+        <p id="cv-updated" class="muted"></p>
+      </div>
+      <div class="cv-body">
+        <div>
+          <h3>Experience</h3>
+          <ul id="experience" class="timeline"></ul>
+        </div>
+        <div>
+          <h3>Education</h3>
+          <ul id="education" class="timeline"></ul>
+          <h3>Skills</h3>
+          <ul id="skills" class="skills"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact" class="foot">
+    <h2>Get in touch</h2>
+    <a id="email" class="email"></a>
+    <ul id="links" class="links"></ul>
+  </footer>
+
+  <script src="content.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

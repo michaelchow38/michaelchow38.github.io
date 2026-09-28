@@ -1,0 +1,4 @@
+Save your CV as a PDF named exactly:  Michael-Chow-CV.pdf
+and upload it into this folder. To update it later, upload the new
+version with the same name — GitHub will replace the old one.
+Project images go in the images folder.
