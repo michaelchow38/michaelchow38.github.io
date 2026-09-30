@@ -186,6 +186,8 @@
   function card(p) {
     const li = el("li");
     const a = el("a", "project"); a.href = "#project/" + slug(p);
+    a.target = "_blank"; a.rel = "noopener"; // open each project in its own tab
+    a.setAttribute("aria-label", p.title + " (opens in a new tab)");
     const fig = el("span", "thumb");
     fig.appendChild(imageOrTile(p));
     const eye = el("span", "view"); eye.appendChild(icon("eye")); fig.appendChild(eye);
