@@ -88,14 +88,14 @@ window.SITE = {
     {
       id: "cod-kd-sql",
       title: "K/D vs. Winning in Pro Call of Duty",
-      year: "",
-      status: "in-progress",
+      year: "2026",
+      status: "completed",
       labels: ["Data Analysis", "SQL", "Esports"],
       summary: "Do players with a high kill/death ratio actually win more, or do other stats matter more?",
       image: "assets/images/cwl-stat-correlations.png",
       imageAlt: "Bar charts showing how strongly each stat correlates with win rate in Control, Hardpoint, and Search & Destroy",
       facts: [
-        { label: "Data", value: "22,301 player-map box scores, 2019 CWL season (Black Ops 4)" },
+        { label: "Data", value: "22,301 player-map box scores, 2019 CWL season (Black Ops 4), from Jpkrez's cwl-stats archive" },
         { label: "Tools", value: "Python, pandas, SQLite, Matplotlib" },
         { label: "Methods", value: "SQL queries, data-quality checks, correlation analysis" }
       ],
@@ -121,10 +121,19 @@ window.SITE = {
           "In Search & Destroy, how often a player survived the round (0.46) beat K/D (0.30)",
           "Some top-K/D players had average win rates: one Hardpoint player ranked 4th in K/D (1.17) but won only 45.9% of maps"
         ] },
-        { heading: "Next steps", text: "I'm finishing the written conclusions and limitations, including why correlation isn't causation here and how much a player's win rate depends on their teammates." }
+        { heading: "Conclusion", text: "Players with a high K/D do tend to win more, but K/D was never the stat most closely tied to winning in any mode. What mattered most depended on the mode: capturing zones in Control, dealing damage in Hardpoint, and staying alive in Search & Destroy. Stats like captures, damage, and survival deserve as much attention as K/D." },
+        { heading: "Limitations", points: [
+          "Correlation isn't causation: winning teams get more kills, not only the other way around",
+          "A player's win rate depends on their teammates, and several players changed teams mid-season",
+          "One season of one game, pro players only, and the correlations are moderate (0.30 to 0.53)"
+        ] },
+        { heading: "Data source", text: "The data comes from Jpkrez's cwl-stats repository on GitHub, a public archive of CWL player stats he collected while working for MLG from 2016 to 2019. Thanks to Jpkrez for sharing it." }
       ],
       gallery: [],
-      links: []
+      links: [
+        { label: "View code on GitHub", url: "https://github.com/michaelchow38/michaelchow38.github.io/tree/main/projects/cod-kd-sql-analysis" },
+        { label: "Data source: jpkrez/cwl-stats", url: "https://github.com/jpkrez/cwl-stats" }
+      ]
     },
     {
       id: "man-city-2020-21",
