@@ -15,7 +15,8 @@ window.SITE = {
   phone: "",                            // leave "" to hide
   location: "Palo Alto, CA",
   links: [
-    { label: "LinkedIn", url: "https://www.linkedin.com/in/michael-s-chow/" }
+    { label: "LinkedIn", url: "https://www.linkedin.com/in/michael-s-chow/" },
+    { label: "GitHub", url: "https://github.com/michaelchow38/michaelchow38.github.io/tree/main/projects" }
   ],
 
   /* ---------- ABOUT TAB ---------- */
@@ -128,7 +129,7 @@ window.SITE = {
     {
       id: "man-city-2020-21",
       title: "What Made Man City Champions?",
-      year: "",
+      year: "2025",
       status: "completed",
       labels: ["Data Analysis", "Python", "Data Visualization"],
       summary: "Why Manchester City won the 2020–21 Premier League: circumstance, stats, or star players?",
@@ -155,17 +156,14 @@ window.SITE = {
           "Their goalkeeper Ederson kept the most clean sheets in the league (19)",
           "City players and staff won 6 of the 8 major season awards and 6 of the 11 PFA Team of the Year spots"
         ] },
-        { heading: "What I learned", text: [
-          "I originally planned to use the Sportmonks API for more advanced stats, but it worked inconsistently, so I switched to CSV and HTML sources instead. Knowing when to change course was part of the project.",
-          "I also got much more comfortable building charts in Matplotlib on my own, rather than copying examples."
-        ] }
+        { heading: "What I learned", text: "I got much more comfortable building charts in Matplotlib on my own, rather than copying examples." }
       ],
       gallery: [
         { src: "assets/images/epl-man-city-scorers.png", caption: "Man City's individual goal scorers" },
         { src: "assets/images/epl-awards-by-club.png", caption: "Season awards by club" },
         { src: "assets/images/epl-pfa-team-by-club.png", caption: "PFA Team of the Year spots by club" }
       ],
-      links: []
+      links: [{ label: "View code on GitHub", url: "https://github.com/michaelchow38/michaelchow38.github.io/tree/main/projects/man-city-2020-21-analysis" }]
     },
     {
       title: "Al-Adala Lab Research",
