@@ -22,7 +22,7 @@ window.SITE = {
   /* ---------- ABOUT TAB ---------- */
   about: [
     "I'm an Information Science student at the University of Colorado Boulder, minoring in Business. I'm interested in how people and technology work together, especially how each design decision shapes the user experience from one moment to the next. I also love digging into the why: understanding what's going on in someone's world that leads them to make big changes.",
-    "I'm an undergraduate researcher in the Al-Adala Lab, working under PhD candidate Divyanshu Kumar Singh to study technology and marginalized communities, with a focus on caste in India. Before that, I spent years managing competitive esports teams and youth soccer programs, where I learned to run operations, negotiate sponsorships, and keep teams coordinated across countries."
+    "I'm an undergraduate researcher in the Al-Adala Lab, working under Professor Bryan Semaan and PhD candidate Divyanshu Kumar Singh to study technology and marginalized communities, with a focus on caste in India. Before that, I spent years managing competitive esports teams and youth soccer programs, where I learned to run operations, negotiate sponsorships, and keep teams coordinated across countries."
   ],
 
   /* "What I'm doing" cards.
