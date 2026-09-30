@@ -29,7 +29,8 @@ Manchester City won the 2020–21 English Premier League. This project asks why:
 | `2020-2021.csv` | Results and match stats for every game of the season |
 | `EPL_20_21_Edited_2.csv` | Season stats for every player, cleaned by hand in Excel |
 | `2020–21-EPL.html` | Saved copy of the Wikipedia article on the season |
-| `Before-Edit.png`, `After-Edit.png` | The player CSV before and after cleaning |
+| `Before-After-Edit.png` | Before and after cleaning the player names in Excel |
+| The other `.png` files | Charts saved by the notebook |
 
 ## Run it yourself
 
