@@ -7,8 +7,8 @@
 
 window.SITE = {
   name: "Michael Chow",
-  title: "Information Science Student", // small badge under your name
-  avatar: "assets/images/avatar.png",   // your photo; initials show until you upload one
+  title: "Information Science Student and Undergraduate Researcher @ University of Colorado Boulder", // badge under your name
+  avatar: "assets/images/avatar.webp",  // your photo; initials show if it is missing
 
   email: "michael.s.chow@gmail.com",        // personal
   schoolEmail: "michael.chow@colorado.edu", // leave "" to hide
