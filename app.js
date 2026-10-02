@@ -210,6 +210,82 @@
   $("reset").addEventListener("click", () => { state.status = "all"; state.label = "all"; render(); });
   render();
 
+  /* ---------- Slide viewer (for projects with a presentation PDF) ---------- */
+  const PDFJS = "https://cdn.jsdelivr.net/npm/pdfjs-dist@5.6.205/legacy/build/";
+  let pdfjsReady;
+  const loadPdfJs = () => pdfjsReady || (pdfjsReady = import(PDFJS + "pdf.min.mjs").then((lib) => {
+    lib.GlobalWorkerOptions.workerSrc = PDFJS + "pdf.worker.min.mjs";
+    return lib;
+  }));
+
+  function slideViewer(pres) {
+    const sec = el("section", "pj-section");
+    sec.appendChild(el("h3", "subheading", pres.title || "Presentation"));
+    const deck = el("div", "deck"); deck.tabIndex = 0;
+    deck.setAttribute("aria-label", "Slide viewer. Use the left and right arrow keys to change slides.");
+    const stage = el("div", "deck-stage");
+    const canvas = el("canvas"); canvas.setAttribute("role", "img");
+    const status = el("p", "deck-status", "Loading slides…");
+    stage.append(canvas, status);
+    const bar = el("div", "deck-bar");
+    const prev = el("button", "deck-btn", "‹ Previous"); prev.type = "button";
+    const next = el("button", "deck-btn", "Next ›"); next.type = "button";
+    const count = el("span", "deck-count"); count.setAttribute("aria-live", "polite");
+    const open = el("a", "deck-open", "Open PDF"); open.href = pres.file; open.target = "_blank"; open.rel = "noopener";
+    open.appendChild(icon("external"));
+    bar.append(prev, count, next, open);
+    deck.append(stage, bar); sec.appendChild(deck);
+    prev.disabled = next.disabled = true;
+
+    let doc = null, n = 1, task = null, ratio = 16 / 9;
+    async function draw() {
+      if (!doc || !canvas.isConnected) return;
+      const page = await doc.getPage(n);
+      const base = page.getViewport({ scale: 1 });
+      ratio = base.width / base.height; stage.style.aspectRatio = String(ratio);
+      const scale = (stage.clientWidth || 800) / base.width * Math.min(window.devicePixelRatio || 1, 2);
+      const viewport = page.getViewport({ scale });
+      if (task) { try { task.cancel(); } catch (e) {} }
+      canvas.width = Math.floor(viewport.width); canvas.height = Math.floor(viewport.height);
+      task = page.render({ canvasContext: canvas.getContext("2d"), viewport, canvas });
+      try { await task.promise; } catch (e) { if (e && e.name !== "RenderingCancelledException") throw e; }
+      count.textContent = "Slide " + n + " of " + doc.numPages;
+      canvas.setAttribute("aria-label", "Slide " + n + " of " + doc.numPages);
+      prev.disabled = n === 1; next.disabled = n === doc.numPages;
+    }
+    const go = (d) => { if (!doc) return; const m = Math.min(Math.max(n + d, 1), doc.numPages); if (m !== n) { n = m; draw(); } };
+    prev.addEventListener("click", () => go(-1));
+    next.addEventListener("click", () => go(1));
+    deck.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") { e.preventDefault(); go(-1); }
+      if (e.key === "ArrowRight") { e.preventDefault(); go(1); }
+    });
+    let x0 = null;
+    stage.addEventListener("touchstart", (e) => { x0 = e.touches[0].clientX; }, { passive: true });
+    stage.addEventListener("touchend", (e) => {
+      if (x0 === null) return; const dx = e.changedTouches[0].clientX - x0; x0 = null;
+      if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+    });
+    let resizeTimer;
+    const onResize = () => {
+      if (!canvas.isConnected) { window.removeEventListener("resize", onResize); return; }
+      clearTimeout(resizeTimer); resizeTimer = setTimeout(draw, 150);
+    };
+    window.addEventListener("resize", onResize);
+
+    loadPdfJs()
+      .then((lib) => lib.getDocument(pres.file).promise)
+      .then((d) => { doc = d; status.remove(); return draw(); })
+      .catch(() => {
+        status.textContent = "";
+        status.append("The slides couldn't load here. ");
+        const a2 = el("a", null, "Open the PDF instead"); a2.href = pres.file; a2.target = "_blank"; a2.rel = "noopener";
+        status.appendChild(a2);
+        count.textContent = "";
+      });
+    return sec;
+  }
+
   /* ---------- Project page ---------- */
   function renderProject(id) {
     const view = $("project-view");
@@ -247,6 +323,8 @@
       });
       parts.push(dl);
     }
+
+    if (p.presentation && p.presentation.file) parts.push(slideViewer(p.presentation));
 
     const sections = p.sections && p.sections.length
       ? p.sections
