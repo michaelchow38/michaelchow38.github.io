@@ -87,7 +87,7 @@
   }
   function route() {
     let hash = decodeURIComponent(location.hash.slice(1));
-    if (hash === "resume") hash = "cv"; // old links keep working
+    if (hash === "resume") { hash = "cv"; history.replaceState(null, "", "#cv"); } // old links land on #cv
     if (hash.startsWith("project/")) {
       renderProject(hash.slice(8));
       showTab("project", "portfolio");
