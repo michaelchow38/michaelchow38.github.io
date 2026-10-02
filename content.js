@@ -199,49 +199,95 @@ window.SITE = {
     },
     {
       title: "Accessibility Heat Maps: ECCR and Leeds",
-      year: "",
+      year: "2026",
       status: "completed",
       labels: ["Accessibility", "Research", "Data Visualization"],
-      summary: "A team evaluation of two campus buildings for students with disabilities.",
-      image: "",
+      summary: "A team evaluation of two CU Boulder buildings, scoring every part of every floor for accessibility and mapping the results as heat maps.",
+      image: "projects/accessibility-eval/accessibility-heatmap.jpg",
+      imageAlt: "Heat map of the Engineering Center's first floor, with each grid cell scored from 0 to 5 for accessibility",
+      presentation: { file: "projects/accessibility-eval/Accessibility%20Eval.pdf", title: "Our presentation" },
       facts: [
-        { label: "Type", value: "Team project" },
-        { label: "Context", value: "CU Boulder" },
-        { label: "Methods", value: "Student surveys, on-site inspections" },
-        { label: "Output", value: "Heat maps and recommendations" }
+        { label: "Type", value: "Team project, INFO 4871" },
+        { label: "Team", value: "Alex Gertzen, Mason Mutz, Michael Chow, Owen Lowery, Nick Carpico" },
+        { label: "Methods", value: "Student survey, floor-by-floor site evaluations, scoring rubric" },
+        { label: "Tools", value: "Python, NumPy, Matplotlib" }
       ],
       sections: [
-        { heading: "Overview", text: "Our team evaluated the accessibility of the Engineering Center (ECCR) and the Leeds School of Business to find the barriers students with disabilities face on campus." },
-        { heading: "What we did", points: [
-          "Surveyed students about how they experience and move through each building",
-          "Inspected both buildings on site to assess how navigable, inclusive, and functional they were",
-          "Combined both sources of data into visual heat maps of problem areas"
+        { heading: "Overview", text: "Our team set out to build a \"from students, for students\" picture of how accessible CU Boulder's buildings are, so students with disabilities can understand a building's layout before they arrive. We focused on two buildings: the Engineering Center (ECCR) and the Leeds School of Business (Koelbel Building)." },
+        { heading: "What students told us", points: [
+          "Almost 1 in 5 campus buildings have areas that make getting in or out difficult for students with disabilities",
+          "Almost 1 in 3 students found at least one floor in every building with little to no accessibility support",
+          "Feedback on the Engineering Center was mixed: students called its signage confusing and said its many sharp corners cause traffic problems"
         ] },
-        { heading: "Outcome", text: "We delivered evidence-based recommendations for campus improvements, backed by the heat maps." }
+        { heading: "How we scored each floor", text: "We divided every floor into a 10×10 grid and scored each cell from 0 (inaccessible or blocked) to 5 (highly accessible):", points: [
+          "Route access (0 to +2): path width and obstructions for mobility devices",
+          "Entry and doors (−1 to +1): level transitions, and automatic versus heavy or narrow manual doors",
+          "Space and usability (−1 to +1): turning room and how usable desks, labs, and restrooms are",
+          "Stair-only access or an inaccessible entrance automatically scores 0",
+          "Criteria adjust for hallways, entryways, and classrooms or labs"
+        ] },
+        { heading: "What we found", points: [
+          "Leeds scored much higher overall: 4.63 out of 5, compared with 3.5 for the Engineering Center",
+          "The Engineering Center varied the most by floor, from 2.9 in Basement 2 to 4.0 on Floor 1",
+          "Engineering Center issues: an inconsistent layout, hard-to-find alternatives to stairs, signage that doesn't work for people with visual impairments, and accessible restrooms on only floors 1 and 2",
+          "Leeds strengths: elevators reach every floor, and ramps sit near the smaller staircases",
+          "Leeds issues: large staircases with no signs pointing to alternatives, and heavy classroom doors that open only by the handle"
+        ] },
+        { heading: "Recommendations", points: [
+          "Engineering Center: signage that works for people with visual impairments, such as braille, plus recommended routes. Many of its issues are built into the building's design",
+          "Leeds: prop classroom doors open between classes, and add signs pointing to elevators and ramps"
+        ] },
+        { heading: "Limitations", points: [
+          "Scores are based on student observations, not professional ADA compliance audits",
+          "A 10×10 grid can average out small physical details within a single cell",
+          "Only two buildings were studied, so other campus buildings may have different challenges",
+          "Non-essential areas, like exterior landscaping, were left out to focus on high-traffic student spaces"
+        ] }
       ],
       gallery: [],
       links: []
     },
     {
       title: "Chipotle Field Study",
-      year: "",
+      year: "2025",
       status: "completed",
       labels: ["Research", "Design"],
-      summary: "How customers, staff, layout, and technology coordinate as one information system.",
-      image: "",
+      summary: "A field study of the Chipotle on University Hill, looking at how customers, staff, layout, and technology work together as one information system.",
+      image: "projects/chipotle-field-study/chipotle-map.jpg",
+      imageAlt: "Hand-drawn floor map of the Chipotle, showing the kitchen, burrito bar, cashier, mobile order area, seating, and doors",
+      presentation: { file: "projects/chipotle-field-study/Chipotle%20Analysis.pdf", title: "My presentation" },
       facts: [
-        { label: "Type", value: "Individual project" },
-        { label: "Context", value: "CU Boulder" },
+        { label: "Type", value: "Individual project, INFO 2131" },
         { label: "Framework", value: "Socially distributed cognition" },
-        { label: "Methods", value: "Field observation, photos, hand-drawn maps" }
+        { label: "Methods", value: "In-person observation, photos, hand-drawn map" },
+        { label: "Field study", value: "February 10, 2025, Chipotle on University Hill, Boulder" }
       ],
       sections: [
-        { heading: "Overview", text: "An in-person field study of a fast-casual restaurant, treating the customers, employees, layout, and technology as one system that shares the work of taking and filling orders." },
-        { heading: "What I did", points: [
-          "Documented each station through photos, hand-drawn maps, and observational notes",
-          "Analyzed the verbal and nonverbal cues people use to coordinate along the line"
+        { heading: "Overview", text: "I studied a Chipotle near campus as an information system. I went in as a regular customer, then shifted into a researcher's mindset to watch how employees and customers work together to turn an order into a meal: who does what, where everything is placed, and how information gets passed along the way." },
+        { heading: "How I observed", text: "I visited at 1:30 p.m., just after the lunch rush.", points: [
+          "With fewer customers, I had a clear view of the whole space and could watch staff start preparing for dinner service",
+          "The tradeoff was fewer orders to watch, and some employees were prepping or on break instead of at their usual stations",
+          "I took photos at each step without disturbing anyone, drew a map of the layout, and noted key features",
+          "I asked employees for an interview, but they declined, so I respected that and relied on observation"
         ] },
-        { heading: "Outcome", text: "I proposed design recommendations to improve line efficiency and pricing clarity." }
+        { heading: "Who does what", points: [
+          "Customers line up and tell the burrito bar cooks what they want, prompted by the overhead menu and the food in front of them",
+          "Burrito bar cooks each run one station: tortilla, rice, and beans; then meats and salsas; then veggies and cheese. Several orders move down the line at once",
+          "Cooks in the back keep the bar stocked, and a separate mobile order bar, with its own monitor and label maker, handles app orders so they don't back up the main line",
+          "The cashier prices each order and takes payment, with bottled drinks placed right before the register",
+          "Delivery and app orders go on dedicated shelves or out a mobile pickup window"
+        ] },
+        { heading: "How information moves", text: "Most of the coordination between staff is nonverbal:", points: [
+          "Cooks write a code on the foil with a marker (S for steak, G for guacamole, C for chicken) and add colored labels for extras like double meat, so the cashier knows what to charge without asking",
+          "The conversation between customer and cook is the most important exchange: it's where the whole order gets built",
+          "Cooks at the bar and cooks in the back talk constantly about what needs refilling and what to start cooking next",
+          "For an in-person order, the information flows in one direction: line up, tell the first cook, continue down the line, the cashier reads the code and enters it, then pay and get a receipt"
+        ] },
+        { heading: "Space and time", text: "The restaurant runs almost like a manufacturing line. The layout was designed around that flow rather than retrofitted: seating funnels customers into a single-file line, and staff are arranged in the order a burrito is built. Speed is the goal at every step. While I was there, a large order came through and the line finished it item by item remarkably quickly." },
+        { heading: "Recommendations", points: [
+          "Give the line more room. Right now it weaves between people eating and sometimes stretches out the door. Removing the large back table would create space, and the seating area is rarely full",
+          "Add prices to the bottled drinks. There's no pricing shown, so customers can't make an informed choice, and it could prevent returns at the register"
+        ] }
       ],
       gallery: [],
       links: []
