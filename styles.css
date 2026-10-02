@@ -226,6 +226,16 @@ a.c-value:hover { color: var(--gold); }
 .pj-step-title { color: var(--text); font-size: 15px; }
 .pj-step:hover .pj-step-title { color: var(--gold); }
 
+/* "More coming soon" card */
+.soon {
+  display: grid; align-content: center; justify-items: center; gap: 6px; text-align: center;
+  aspect-ratio: 4 / 3; padding: 18px; border-radius: 16px; border: 1.5px dashed var(--line);
+}
+.soon-mark {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; margin-bottom: 6px;
+  background: var(--raise); color: var(--gold); font-size: 22px; font-weight: 500;
+}
+
 /* Slide viewer */
 .deck { border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 1px var(--line), var(--shadow); background: #000; }
 .deck:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
