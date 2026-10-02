@@ -70,6 +70,9 @@ window.SITE = {
   ],
   skills: ["Python", "SQL", "Excel", "Tableau", "Power BI", "Data visualization", "User research", "Human subjects research", "Design thinking", "Accessibility", "Budgeting", "Logistics & scheduling", "Sponsorship negotiation"],
 
+  /* Card shown at the end of the Portfolio grid. Delete this line to hide it. */
+  comingSoon: { title: "More projects coming soon", text: "I'm working on new research and data projects. Check back soon." },
+
   /* ---------- PORTFOLIO TAB ----------
      Every project gets its own page. Only title, status and labels
      are required — leave out anything you don't have.
@@ -179,19 +182,21 @@ window.SITE = {
       year: "2026",
       status: "in-progress",
       labels: ["Research"],
-      summary: "Human-centered research on technology and marginalized communities.",
+      summary: "Research on technology and marginalized communities, including caste and data workers in India, plus my own interview study on how esports competitive structures form.",
       image: "",
       facts: [
-        { label: "Role", value: "Undergraduate Research Assistant" },
+        { label: "Role", value: "Undergraduate Researcher & Research Assistant" },
         { label: "Lab", value: "Al-Adala Lab, CU Boulder" },
         { label: "PI", value: "Dr. Bryan Semaan" },
-        { label: "Started", value: "Fall 2026" }
+        { label: "Supervisor", value: "Divyanshu Kumar Singh, PhD Candidate" }
       ],
       sections: [
-        { heading: "Overview", text: "The Al-Adala Lab is a social computing and HCI lab at CU Boulder that studies how technology shapes the lives of marginalized communities. I joined as an undergraduate research assistant in Fall 2026." },
+        { heading: "Overview", text: "The Al-Adala Lab is a social computing and HCI lab at CU Boulder that studies how technology shapes the lives of marginalized communities. I joined as an Undergraduate Researcher in Fall 2026, working with Dr. Bryan Semaan, the lab's PI, and PhD candidate Divyanshu Kumar Singh, my supervisor." },
         { heading: "What I'm doing", points: [
-          "Supporting human-centered research on technology and marginalized communities",
-          "Completed CITI human subjects training to take part in IRB-governed social-behavioral studies"
+          "Leading an independent interview study on how esports stakeholders (players, team managers, creators, and league staff) explain why competitive structures like franchised leagues and open circuits form and change",
+          "Designed the study's interview questions, a recruitment plan across 8 stakeholder groups, and a plan for analyzing and comparing responses by role",
+          "Supporting my supervisor's research on caste and data workers in India: helping design interview questions and protocols, coding and labeling qualitative data, and identifying insights",
+          "Completed CITI human subjects training to take part in IRB-governed social-behavioral research"
         ] }
       ],
       gallery: [],
