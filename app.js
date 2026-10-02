@@ -204,7 +204,16 @@
     const list = S.projects.filter((p) =>
       (state.status === "all" || p.status === state.status) &&
       (state.label === "all" || p.labels.includes(state.label)));
-    $("projects").replaceChildren(...list.map(card));
+    const cards = list.map(card);
+    if (S.comingSoon) {
+      const li = el("li");
+      const box = el("div", "soon");
+      box.appendChild(el("span", "soon-mark", "+"));
+      box.appendChild(el("span", "p-title", S.comingSoon.title));
+      if (S.comingSoon.text) box.appendChild(el("span", "p-cat", S.comingSoon.text));
+      li.appendChild(box); cards.push(li);
+    }
+    $("projects").replaceChildren(...cards);
     $("empty").hidden = list.length > 0;
   }
   $("reset").addEventListener("click", () => { state.status = "all"; state.label = "all"; render(); });
