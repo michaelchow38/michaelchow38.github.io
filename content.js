@@ -10,7 +10,7 @@ window.SITE = {
   title: "Information Science Student", // small badge under your name
   avatar: "assets/images/avatar.png",   // your photo; initials show until you upload one
 
-  email: "mcsoccer385@gmail.com",        // personal
+  email: "michael.s.chow@gmail.com",        // personal
   schoolEmail: "michael.chow@colorado.edu", // leave "" to hide
   phone: "",                            // leave "" to hide
   location: "Palo Alto, CA",
