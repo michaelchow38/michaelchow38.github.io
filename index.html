@@ -33,7 +33,7 @@
     <main class="panel">
       <nav class="tabs" aria-label="Sections">
         <button type="button" data-tab="about">About</button>
-        <button type="button" data-tab="resume">Resume</button>
+        <button type="button" data-tab="cv">CV</button>
         <button type="button" data-tab="portfolio">Portfolio</button>
         <button type="button" data-tab="contact">Contact</button>
       </nav>
@@ -45,19 +45,14 @@
         <ul class="services" id="services"></ul>
       </section>
 
-      <section class="tab" id="tab-resume" hidden>
-        <h2 class="heading">Resume</h2>
+      <section class="tab" id="tab-cv" hidden>
+        <h2 class="heading">CV</h2>
         <div class="cv-bar">
           <a class="btn" id="cv-download" download>Download CV (PDF)</a>
+          <a class="deck-open" id="cv-open" target="_blank" rel="noopener">Open in new tab</a>
           <span class="muted" id="cv-updated"></span>
         </div>
-        <div class="timeline-block">
-          <h3 class="subheading with-icon"><span class="icon-box" data-icon="book"></span>Education</h3>
-          <ol class="timeline" id="education"></ol>
-        </div>
-        <div id="experience-groups"></div>
-        <h3 class="subheading">Skills</h3>
-        <ul class="skills" id="skills"></ul>
+        <div class="cv-doc" id="cv-doc"><p class="cv-status">Loading CV…</p></div>
       </section>
 
       <section class="tab" id="tab-portfolio" hidden>

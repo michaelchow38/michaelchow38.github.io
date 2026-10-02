@@ -76,16 +76,18 @@
   });
 
   /* ---------- Tabs & routing ----------
-     #about, #resume, #portfolio, #contact show a tab.
+     #about, #cv, #portfolio, #contact show a tab (#resume still works).
      #project/<id> shows one project's page. */
   const tabs = document.querySelectorAll(".tabs button");
   function showTab(name, highlight) {
     document.querySelectorAll(".tab").forEach((t) => (t.hidden = t.id !== "tab-" + name));
     tabs.forEach((b) => b.setAttribute("aria-current", b.dataset.tab === highlight ? "page" : "false"));
     window.scrollTo(0, 0);
+    if (name === "cv") drawCv();
   }
   function route() {
-    const hash = decodeURIComponent(location.hash.slice(1));
+    let hash = decodeURIComponent(location.hash.slice(1));
+    if (hash === "resume") hash = "cv"; // old links keep working
     if (hash.startsWith("project/")) {
       renderProject(hash.slice(8));
       showTab("project", "portfolio");
@@ -111,32 +113,44 @@
     li.append(icon(s.icon), t); $("services").appendChild(li);
   });
 
-  /* ---------- Resume ---------- */
-  document.querySelectorAll("[data-icon]").forEach((n) => n.appendChild(icon(n.dataset.icon)));
+  /* ---------- CV (PDF preview + download) ---------- */
   $("cv-download").href = S.cvFile;
+  $("cv-download").setAttribute("download", S.name.replace(/\s+/g, "-") + "-CV.pdf");
+  $("cv-open").href = S.cvFile; $("cv-open").appendChild(icon("external"));
   $("cv-updated").textContent = S.cvUpdated ? "Last updated " + S.cvUpdated : "";
-  const timeline = (list, target) => list.forEach((e) => {
-    const li = el("li");
-    li.appendChild(el("h4", null, e.title));
-    li.appendChild(el("span", "t-dates", e.dates));
-    if (e.detail) li.appendChild(el("p", null, e.detail));
-    target.appendChild(li);
-  });
-  timeline(S.education, $("education"));
-  // Experience can be one list, or split into groups with their own headings
-  const groups = S.experience.length && S.experience[0].items
-    ? S.experience
-    : [{ heading: "Experience", icon: "briefcase", items: S.experience }];
-  groups.forEach((g) => {
-    const block = el("div", "timeline-block");
-    const h = el("h3", "subheading with-icon");
-    const box = el("span", "icon-box"); box.appendChild(icon(g.icon || "briefcase"));
-    h.append(box, document.createTextNode(g.heading));
-    const ol = el("ol", "timeline");
-    timeline(g.items, ol);
-    block.append(h, ol); $("experience-groups").appendChild(block);
-  });
-  S.skills.forEach((s) => $("skills").appendChild(el("li", null, s)));
+  let cvWidth = 0, cvBusy = false;
+  function drawCv() {
+    const box = $("cv-doc");
+    const width = box.clientWidth;
+    if (!width || cvBusy || Math.abs(width - cvWidth) < 40) return; // hidden, busy, or already drawn at this size
+    cvBusy = true;
+    loadPdfJs()
+      .then((lib) => lib.getDocument(S.cvFile).promise)
+      .then(async (doc) => {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const pages = [];
+        for (let i = 1; i <= doc.numPages; i++) {
+          const page = await doc.getPage(i);
+          const base = page.getViewport({ scale: 1 });
+          const viewport = page.getViewport({ scale: width / base.width * dpr });
+          const c = el("canvas", "cv-page");
+          c.width = Math.floor(viewport.width); c.height = Math.floor(viewport.height);
+          c.setAttribute("role", "img"); c.setAttribute("aria-label", "CV, page " + i + " of " + doc.numPages);
+          await page.render({ canvasContext: c.getContext("2d"), viewport, canvas: c }).promise;
+          pages.push(c);
+        }
+        box.replaceChildren(...pages);
+        cvWidth = width;
+      })
+      .catch(() => {
+        const p = el("p", "cv-status", "The preview couldn't load here. ");
+        const dl = el("a", null, "Download the PDF instead"); dl.href = S.cvFile;
+        p.appendChild(dl); box.replaceChildren(p);
+      })
+      .finally(() => { cvBusy = false; });
+  }
+  let cvResize;
+  window.addEventListener("resize", () => { clearTimeout(cvResize); cvResize = setTimeout(drawCv, 200); });
 
   /* ---------- Contact ---------- */
   [[S.schoolEmail ? "Personal" : "Email", S.email], ["School", S.schoolEmail]].forEach(([label, addr]) => {

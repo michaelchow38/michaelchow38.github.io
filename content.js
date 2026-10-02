@@ -34,11 +34,14 @@ window.SITE = {
     { icon: "briefcase", title: "Program Management", text: "Running operations, budgets, logistics, and sponsorships for teams and programs." }
   ],
 
-  /* ---------- RESUME TAB ----------
-     To update your CV PDF: name it exactly like cvFile below and
-     upload it into the assets folder, replacing the old one. */
-  cvFile: "assets/Michael-Chow-CV.pdf",
-  cvUpdated: "September 2026",
+  /* ---------- CV TAB ----------
+     The CV tab shows your PDF and lets people download it.
+     To update it: upload the new PDF into the assets folder with this exact
+     name (it replaces the old one), then change cvUpdated.
+     (The education, experience, and skills lists below aren't shown on the
+     site anymore, but you can keep them for reference.) */
+  cvFile: "assets/Michael_Chow_CV.pdf",
+  cvUpdated: "October 2026",
 
   education: [
     { title: "University of Colorado Boulder", dates: "2024 — May 2028 (expected)", detail: "B.S. Information Science, Minor in Business. GPA 3.78. Dean's List Fall 2024, Spring 2025, and Spring 2026." },

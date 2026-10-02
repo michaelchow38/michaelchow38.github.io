@@ -236,6 +236,12 @@ a.c-value:hover { color: var(--gold); }
   background: var(--raise); color: var(--gold); font-size: 22px; font-weight: 500;
 }
 
+/* CV preview */
+.cv-doc { display: grid; gap: 18px; max-width: 820px; margin: 22px auto 0; }
+.cv-page { display: block; width: 100%; height: auto; background: #fff; border-radius: 6px; box-shadow: 0 0 0 1px var(--line), var(--shadow); }
+.cv-status { margin: 0; padding: 48px 16px; text-align: center; color: var(--muted); font-size: 14px; border: 1.5px dashed var(--line); border-radius: 14px; }
+.cv-status a { color: var(--gold); }
+
 /* Slide viewer */
 .deck { border-radius: 16px; overflow: hidden; box-shadow: 0 0 0 1px var(--line), var(--shadow); background: #000; }
 .deck:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
