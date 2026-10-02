@@ -10,7 +10,7 @@ window.SITE = {
   title: "Information Science Student and Undergraduate Researcher @ University of Colorado Boulder", // badge under your name
   avatar: "assets/images/avatar.webp",  // your photo; initials show if it is missing
 
-  email: "michael.s.chow@gmail.com",        // personal
+  email: "michael.s.chow38@gmail.com",        // personal
   schoolEmail: "michael.chow@colorado.edu", // leave "" to hide
   phone: "",                            // leave "" to hide
   location: "Palo Alto, CA",
