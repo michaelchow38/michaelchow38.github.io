@@ -209,6 +209,10 @@ window.SITE = {
           "Built one row per player per mode, using per-10-minute and per-round rates so longer maps don't skew the results, and only players with at least 20 maps",
           "Measured how strongly each stat correlates with win rate in Hardpoint, Control, and Search & Destroy"
         ] },
+        { heading: "Example SQL queries", text: "Two example screenshots of the SQL I wrote for this project.", image: [
+          { src: "projects/cod-kd-sql-analysis/sql-example-data-quality-check.png", caption: "Example SQL query: a data-quality check showing which events have assists, duration and hill-time stats. Vegas has no assists or hill time, so it was excluded" },
+          { src: "projects/cod-kd-sql-analysis/sql-example-player-stats-by-mode.png", caption: "Example SQL query: one row per player per mode, with per-10-minute and per-round rates, for players with at least 20 maps" }
+        ] },
         { heading: "What I found", points: [
           "The team with the higher K/D won about 91% of maps in every mode, but that's partly because the winning team controls the fights and racks up kills",
           "At the player level, K/D was never the stat most closely tied to winning",
