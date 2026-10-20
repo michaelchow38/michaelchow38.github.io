@@ -32,7 +32,7 @@ In `content.js`, find `projects: [` and copy a whole `{ ... },` block. Each proj
 | `labels` | Tags used by the filter buttons |
 | `image` | Cover image |
 | `facts` | Short details, e.g. `{ label: "Tools", value: "Python, SQL" }` |
-| `sections` | The write-up: `{ heading, text }` and/or `{ heading, points: [ ... ] }`. Add `code: [ "..." ]` to show code blocks |
+| `sections` | The write-up: `{ heading, text }` and/or `{ heading, points: [ ... ] }`. Add `code: [ "..." ]` to show code blocks, or `image: { src, caption }` to show a picture inside the section |
 | `gallery` | Extra images: `{ src, caption }` |
 | `links` | Buttons: `{ label, url }` |
 

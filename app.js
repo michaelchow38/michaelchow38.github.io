@@ -356,6 +356,15 @@
       const sec = el("section", "pj-section");
       sec.appendChild(el("h3", "subheading", s.heading));
       [].concat(s.text || []).forEach((t) => sec.appendChild(el("p", null, t)));
+      [].concat(s.image || []).forEach((im) => {
+        const f = el("figure", "pj-figure"); const img = el("img"); img.src = im.src; img.alt = im.caption || ""; img.loading = "lazy";
+        img.onerror = () => f.remove();
+        const link = el("a"); link.href = im.src; link.target = "_blank"; link.rel = "noopener";
+        link.setAttribute("aria-label", "Open full size: " + (im.caption || "image"));
+        link.appendChild(img); f.appendChild(link);
+        if (im.caption) f.appendChild(el("figcaption", null, im.caption));
+        sec.appendChild(f);
+      });
       if (s.points && s.points.length) {
         const ul = el("ul", "pj-points");
         s.points.forEach((pt) => ul.appendChild(el("li", null, pt)));
