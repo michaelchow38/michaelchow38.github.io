@@ -361,6 +361,9 @@
         s.points.forEach((pt) => ul.appendChild(el("li", null, pt)));
         sec.appendChild(ul);
       }
+      [].concat(s.code || []).forEach((c) => {
+        const pre = el("pre", "pj-code"); pre.appendChild(el("code", null, c)); sec.appendChild(pre);
+      });
       parts.push(sec);
     });
 

@@ -294,3 +294,14 @@ a.c-value:hover { color: var(--gold); }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
 }
+
+/* Code blocks in project write-ups (sections with a "code" list) */
+.pj-code {
+  margin: 14px 0 0; padding: 16px 18px; overflow-x: auto;
+  background: #151516; border: 1px solid var(--line); border-radius: 12px;
+  font: 13px/1.6 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; color: #e6e6e6;
+  white-space: pre; tab-size: 4; max-width: 100%; min-width: 0;
+}
+.page > main { min-width: 0; }
+.pj-section { min-width: 0; max-width: 100%;
+}

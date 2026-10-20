@@ -122,6 +122,11 @@ window.SITE = {
           "Age groups: a calculated column using SWITCH(TRUE()) to band Age into 18–24 through 65+, plus a numeric sort column so the bands appear youngest to oldest",
           "Interactivity: clicking a category, age group or gender cross-filters the other visuals on the page, and the location chart drills down from continent to country to state"
         ] },
+        { heading: "DAX expressions", text: "Every calculated column and measure in the report.", code: [
+          "// Measures (factSales)\nTotal Sales        = SUMX(factSales, factSales[Quantity] * factSales[NetPrice])\nTotal Cost         = SUMX(factSales, factSales[Quantity] * factSales[UnitCost])\nTotal Profit       = [Total Sales] - [Total Cost]\nProfit Margin %    = DIVIDE([Total Profit], [Total Sales])\nCustomers          = DISTINCTCOUNT(factSales[CustomerKey])\nSales per Customer = DIVIDE([Total Sales], [Customers])\nSelected Currency  = SELECTEDVALUE(factSales[CurrencyCode], \"Pick one currency\")",
+          "// Calculated column (dimStore)\nStore Type = IF(CONTAINSSTRING(dimStore[Description], \"Online\"), \"Online\", \"Physical\")",
+          "// Calculated columns (dimCustomer)\nAge Group =\nSWITCH(TRUE(),\n    dimCustomer[Age] < 25, \"18–24\",\n    dimCustomer[Age] < 35, \"25–34\",\n    dimCustomer[Age] < 45, \"35–44\",\n    dimCustomer[Age] < 55, \"45–54\",\n    dimCustomer[Age] < 65, \"55–64\",\n    \"65+\")\n\nAge Group Sort =\nSWITCH(TRUE(),\n    dimCustomer[Age] < 25, 1,\n    dimCustomer[Age] < 35, 2,\n    dimCustomer[Age] < 45, 3,\n    dimCustomer[Age] < 55, 4,\n    dimCustomer[Age] < 65, 5,\n    6)\n\nGender Label = UPPER(LEFT(dimCustomer[Gender], 1)) & MID(dimCustomer[Gender], 2, 20)"
+        ] },
         { heading: "Question 1: What are the most profitable product categories?", text: "A column chart shows total profit by category, with profit margin as a line on a second axis, so the page shows both which categories earn the most and which earn most efficiently. A second chart ranks the top 10 subcategories. Figures below are USD.", points: [
           "Computers is the most profitable category in both channels: $0.40M of the online store's $1.13M profit, and $0.43M of the physical stores' $1.02M",
           "Desktops is the top subcategory in both channels ($173K online, $159K physical)",
