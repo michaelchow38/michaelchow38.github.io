@@ -92,6 +92,91 @@ window.SITE = {
      Copy a whole { ... } block to add a project. */
   projects: [
     {
+      id: "contoso-sales-power-bi",
+      title: "Contoso Sales: Who Buys What, and What Pays Off",
+      year: "2026",
+      status: "completed",
+      labels: ["Data Analysis", "Power BI", "Data Visualization"],
+      summary: "A Power BI report on a retail sales dataset that answers three questions: which product categories are most profitable, which age groups spend the most and on what, and how spending differs by gender and location.",
+      image: "projects/contoso-sales-power-bi/cover.png",
+      imageAlt: "Column and line chart of total profit and profit margin for each product category, online store, USD",
+      facts: [
+        { label: "Data", value: "Contoso retail sample: factSales plus dimProduct, dimCustomer and dimStore" },
+        { label: "Tools", value: "Power BI (web), DAX" },
+        { label: "Methods", value: "Star schema modeling, calculated columns, DAX measures, slicers and cross-filtering" }
+      ],
+      sections: [
+        { heading: "Overview", text: "I built a four-page Power BI report on Contoso, a sample electronics retailer with sales in five currencies and both an online store and physical stores. Page 1 shows the data model, and each of the other three pages answers one business question. Every page has the same two slicers, Currency and Store Type, so viewers can compare like with like." },
+        { heading: "The data model", text: "The four tables are laid out as a star schema, shown in the first gallery image.", points: [
+          "factSales sits in the center. Each row is one order line: quantity, prices, costs and a key to the product, customer and store involved",
+          "dimProduct, dimCustomer and dimStore describe the what, who and where of each sale",
+          "Each relationship is one-to-many: one product, customer or store appears on many sales rows",
+          "Filters flow from the dimensions into the fact table, so picking an age group or a category narrows the sales being counted",
+          "Keeping every dimension one step from the fact table keeps the DAX simple and the report fast"
+        ] },
+        { heading: "How I built it", points: [
+          "Currency: sales are recorded in five currencies (AUD, CAD, EUR, GBP, USD). Adding them together would mix dollars with euros, so I made Currency a single-select slicer that always shows one currency at a time",
+          "Online vs. physical: the online store is one very large \"store\" that can drown out the physical ones. I added a Store Type column, IF(CONTAINSSTRING(Description, \"Online\"), \"Online\", \"Physical\"), and used it as a slicer",
+          "Sales and profit: Total Sales = SUMX(factSales, Quantity × NetPrice). I used SUMX because each row can be several units, and NetPrice because it is the price after discounts. Total Profit = Total Sales − Total Cost, and Profit Margin = DIVIDE(Profit, Sales), which returns blank instead of an error if sales are zero",
+          "Per-customer spend: Customers = DISTINCTCOUNT(CustomerKey), and Sales per Customer = Total Sales ÷ Customers. This separates groups that spend more per person from groups that are simply bigger",
+          "Age groups: a calculated column using SWITCH(TRUE()) to band Age into 18–24 through 65+, plus a numeric sort column so the bands appear youngest to oldest",
+          "Interactivity: clicking a category, age group or gender cross-filters the other visuals on the page, and the location chart drills down from continent to country to state"
+        ] },
+        { heading: "Question 1: What are the most profitable product categories?", text: "A column chart shows total profit by category, with profit margin as a line on a second axis, so the page shows both which categories earn the most and which earn most efficiently. A second chart ranks the top 10 subcategories. Figures below are USD.", points: [
+          "Computers is the most profitable category in both channels: $0.40M of the online store's $1.13M profit, and $0.43M of the physical stores' $1.02M",
+          "Desktops is the top subcategory in both channels ($173K online, $159K physical)",
+          "The highest margins belong to smaller categories. Music, Movies and Audio Books keeps about 59 cents of every dollar, versus 55–57 for Computers, but earns only $0.07–0.08M",
+          "Games and Toys is last on both measures: about $0.01M profit at roughly a 52% margin",
+          "The channels rank categories differently. Home Appliances is second online ($0.19M) but fourth in physical stores ($0.13M), and Projectors & Screens is the second-best subcategory in stores but fourth online",
+          "Takeaway: Computers drive profit through volume, while media and TV products are the most efficient sellers"
+        ] },
+        { heading: "Question 2: Which age groups spend the most, and what do they buy?", text: "The first chart shows total sales by age group as columns and sales per customer as a line. The heatmap shows, for each category, how its sales split across age groups. Each row adds up to 100%, so the useful comparison is a cell against the Total row.", points: [
+          "Customers 65 and older spend the most in total: 28.5% of online sales and 33.2% of physical sales. Part of this is that 65+ is the widest band and holds the most customers",
+          "Per customer, the picture changes. Online, 35–44-year-olds spend the most per person ($2,944) while 65+ spend only $2,089. Their lead comes from having more customers, not bigger baskets",
+          "In physical stores, 18–24-year-olds have the lowest total ($0.17M) but the highest spend per customer ($2,635): few customers, but large purchases",
+          "65+ over-index on TV and Video: 37.8% of online TV sales versus 28.5% of all online sales",
+          "35–44-year-olds over-index on Home Appliances: 27.0% online and 28.2% in stores, against 21.6% and 16.3% overall",
+          "Audio sells to middle age online: 45–64-year-olds buy 49% of online Audio but only 31% of all online sales",
+          "Takeaway: target older customers on reach, but 35–44 online shoppers and young in-store shoppers are the most valuable per person"
+        ] },
+        { heading: "Question 3: Which genders spend the most, and where do they live?", text: "A donut shows each gender's share of sales, a column chart compares average spend per customer, and a map plus a drill-down bar chart show where customers live. Location comes from the customer's home address, not the store, so an online order from Colorado counts as Colorado. Because customers pay in their home currency, the Currency slicer also narrows the geography: USD shows US states and EUR shows European countries. The gallery shows two drill-down examples.", points: [
+          "Colorado (USD): men account for 61% of physical-store sales and 57% of online sales. Per customer, though, the genders are close in stores ($2,749 vs. $2,688), and women spend more online ($1,494 vs. $1,379). Men lead because there are more male customers, not because each spends more",
+          "Berlin (EUR): the result flips by channel. Men make 82% of online sales, while women make 78% of physical-store sales and spend more per person ($6.8K vs. $5.7K)",
+          "Takeaway: gender gaps here come mostly from how many customers of each gender shop in a channel, not from bigger baskets",
+          "Caution: a single city or state has only a handful of customers, so one large order can swing the split. These are examples of drilling into a market, not general conclusions"
+        ] },
+        { heading: "What I learned", points: [
+          "Totals can mislead. Comparing total sales with sales per customer changed the answer for both age and gender",
+          "Data-quality choices come first. Deciding how to handle currencies and the online store shaped every chart after it",
+          "A clean star schema makes the DAX short and readable, because each measure only needs to work on one fact table"
+        ] },
+        { heading: "Limitations", points: [
+          "Amounts stay in their original currency, so EUR and USD figures can't be compared directly with each other",
+          "Age is a fixed column in the dataset, not recalculated from birthdays",
+          "Contoso is a sample dataset built for training, so patterns may not reflect a real retailer"
+        ] }
+      ],
+      gallery: [
+        { src: "projects/contoso-sales-power-bi/01-star-schema.png", caption: "Star schema: factSales in the center, three dimension tables around it" },
+        { src: "projects/contoso-sales-power-bi/02-dax-measures.png", caption: "Model view with the DAX measures and calculated columns" },
+        { src: "projects/contoso-sales-power-bi/03-profit-by-category-online.png", caption: "Q1: Profit and margin by category, online store (USD)" },
+        { src: "projects/contoso-sales-power-bi/04-profit-by-category-physical.png", caption: "Q1: Profit and margin by category, physical stores (USD)" },
+        { src: "projects/contoso-sales-power-bi/05-top-subcategories-online.png", caption: "Q1: Top 10 subcategories by profit, online (USD)" },
+        { src: "projects/contoso-sales-power-bi/06-top-subcategories-physical.png", caption: "Q1: Top 10 subcategories by profit, physical stores (USD)" },
+        { src: "projects/contoso-sales-power-bi/07-age-spend-online.png", caption: "Q2: Total and per-customer spend by age group, online (USD)" },
+        { src: "projects/contoso-sales-power-bi/08-age-spend-physical.png", caption: "Q2: Total and per-customer spend by age group, physical stores (USD)" },
+        { src: "projects/contoso-sales-power-bi/09-age-category-heatmap-online.png", caption: "Q2: Share of each category's sales by age group, online (USD)" },
+        { src: "projects/contoso-sales-power-bi/10-age-category-heatmap-physical.png", caption: "Q2: Share of each category's sales by age group, physical stores (USD)" },
+        { src: "projects/contoso-sales-power-bi/11-gender-colorado-online.png", caption: "Q3: Gender and location, Colorado, online (USD)" },
+        { src: "projects/contoso-sales-power-bi/12-gender-colorado-physical.png", caption: "Q3: Gender and location, Colorado, physical stores (USD)" },
+        { src: "projects/contoso-sales-power-bi/13-gender-berlin-online.png", caption: "Q3: Gender and location, Berlin, online (EUR)" },
+        { src: "projects/contoso-sales-power-bi/14-gender-berlin-physical.png", caption: "Q3: Gender and location, Berlin, physical stores (EUR)" }
+      ],
+      links: [
+        { label: "View screenshots and DAX on GitHub", url: "https://github.com/michaelchow38/michaelchow38.github.io/tree/main/projects/contoso-sales-power-bi" }
+      ]
+    },
+    {
       id: "cod-kd-sql",
       title: "K/D vs. Winning in Pro Call of Duty",
       year: "2026",
